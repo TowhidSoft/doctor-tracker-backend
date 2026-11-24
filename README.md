@@ -31,7 +31,7 @@ npm run seed:doctors
 npm run dev        # http://localhost:8080 (PORT in .env)
 ```
 
-On first boot an admin user is created automatically: `admin@gmail.com` / `admin@#486` (override with `Admin_Email` / `Admin_Password`). **Change these before deploying.** There is no public sign-up: the only way in is this admin account.
+On first boot an admin user is created automatically email: `admin@gmail.com`  passwored: `admin@#486`  There is no public sign-up: the only way in is this admin account.
 
 Key variables (see `.env.example` for the full list):
 
@@ -89,4 +89,3 @@ See the frontend README for desktop and mobile screenshots.
 
 - There is no registration endpoint; the single admin account is created on boot from `.env`.
 - All Doctor Tracker routes require an `ADMIN` token.
-- Keep `.env` out of git (now in `.gitignore`).
