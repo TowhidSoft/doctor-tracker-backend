@@ -31,7 +31,7 @@ npm run seed:doctors
 npm run dev        # http://localhost:8080 (PORT in .env)
 ```
 
-On first boot an admin user is created automatically: `admin@gmail.com` / `123456` (override with `Admin_Email` / `Admin_Password`). **Change these before deploying.** There is no public sign-up: the only way in is this admin account.
+On first boot an admin user is created automatically: `admin@gmail.com` / `admin@#486` (override with `Admin_Email` / `Admin_Password`). **Change these before deploying.** There is no public sign-up: the only way in is this admin account.
 
 Key variables (see `.env.example` for the full list):
 
