@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Admin accounts. Doctor Tracker is admin-only: there is no public sign-up,
+// the first admin is created on boot by src/initialization/initiateSuperAdmin.ts.
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String?
+  email     String    @unique
+  phone     String?
+  password  String
+  role      Role      @default(ADMIN)
+  isDeleted Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+}
+
+enum Gender {
+  Male
+  Female
+  Others
+}
+
+// ───────────── Doctor Tracker ─────────────
+// Indexes mirror the queries the admin lists run: each filter is paired with createdAt (the default sort)
+// so MongoDB can filter + sort from a single index instead of sorting in memory.
+
+model Doctor {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  specialization String
+  hospital       String
+  phone          String
+  email          String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  patients Patient[]
+
+  @@index([createdAt(sort: Desc)])
+  @@index([specialization, createdAt(sort: Desc)])
+  @@index([hospital, createdAt(sort: Desc)])
+  @@index([name])
+  @@map("doctors")
+}
+
+model Patient {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  age       Int
+  gender    Gender
+  phone     String
+  email     String?
+  condition String
+  notes     String?
+  doctorId  String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, createdAt(sort: Desc)])
+  @@index([condition, createdAt(sort: Desc)])
+  @@index([gender, createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+  @@index([name])
+  @@map("patients")
+}
