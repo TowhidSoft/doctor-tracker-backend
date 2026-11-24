@@ -66,7 +66,7 @@ Errors use one envelope: `{ status:false, message, errors:[{ path, message }] }`
 ## System Architecture
 
 ```
-Next.js client ──REST/JSON──▶ Express app ──▶ route (Auth: ADMIN) ──▶ controller ──▶ service ──▶ Prisma ──▶ MongoDB
+Next.js client ──REST/JSON──▶ Express app(Monolith) ──▶ route (Auth: ADMIN) ──▶ controller ──▶ service ──▶ Prisma ──▶ MongoDB
  (RTK Query cache)               │                                       │ zod parse        │ indexes + aggregation
                                  └─ helmet · cors · rate limit           └─ global error handler (zod / Prisma / ApiError)
 ```
